@@ -20,8 +20,6 @@ const getUserName = () => {
   }
 };
 
-const key = getUserName();
-
 const getRowNumber = tbody => {
   const rows = tbody.querySelectorAll('tr');
   rows.forEach(row => {
@@ -29,7 +27,7 @@ const getRowNumber = tbody => {
   });
 };
 
-const addTask = (form, tbody, input, btnSave) => {
+const addTask = (form, tbody, input, btnSave, key) => {
   form.addEventListener('submit', e => {
     e.preventDefault();
 
@@ -52,7 +50,7 @@ const addTask = (form, tbody, input, btnSave) => {
   });
 };
 
-const deleteTask = tbody => {
+const deleteTask = (tbody, key) => {
   tbody.addEventListener('click', e => {
     const target = e.target;
     if (target.dataset.action !== 'delete') return;
@@ -67,7 +65,7 @@ const deleteTask = tbody => {
   });
 };
 
-const doneTask = tbody => {
+const doneTask = (tbody, key, data) => {
   tbody.addEventListener('click', e => {
     const target = e.target;
     if (target.dataset.action !== 'done') return;
@@ -75,8 +73,6 @@ const doneTask = tbody => {
     const parentElem = target.closest('tr');
     const taskText = parentElem.children[1].textContent;
     const id = parentElem.id;
-    const data = getStorage(key);
-
     const task = data.find(task => task.id === id);
 
     task.done = !task.done;
@@ -90,10 +86,11 @@ const doneTask = tbody => {
   });
 };
 
-const taskControl = (buttons, form, tbody) => {
+const taskControl = (buttons, form, tbody, key) => {
   const btnSave = buttons[0];
   const btnClear = buttons[1];
   const input = form.task;
+  const data = getStorage(key);
 
   form.addEventListener('input', () => {
     if (input.value) {
@@ -107,13 +104,13 @@ const taskControl = (buttons, form, tbody) => {
     btnSave.disabled = true;
   });
 
-  addTask(form, tbody, input, btnSave);
-  deleteTask(tbody);
-  doneTask(tbody);
+  addTask(form, tbody, input, btnSave, key);
+  deleteTask(tbody, key);
+  doneTask(tbody, key, data);
 };
 
 export default {
-  key,
   taskControl,
   getRowNumber,
+  getUserName,
 };
