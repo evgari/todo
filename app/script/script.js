@@ -14,7 +14,7 @@ const getUserName = controls.getUserName;
       tableWrapper,
       tbody,
       buttonsGroup,
-    } = renderTodoApp(selectorApp, title);
+    } = renderTodoApp(title);
 
     const key = getUserName();
     const data = getStorage(key);

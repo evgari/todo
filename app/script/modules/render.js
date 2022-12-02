@@ -13,7 +13,7 @@ export const renderTasks = (tbody, data) => {
   getRowNumber(tbody);
 };
 
-export const renderTodoApp = (app, title) => {
+export const renderTodoApp = title => {
   const appTitle = createTitle(title);
   const {form, buttonsGroup} = createForm();
   const {tableWrapper, tbody} = createTable();
